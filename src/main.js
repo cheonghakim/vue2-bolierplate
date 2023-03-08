@@ -6,6 +6,7 @@ import "./plugins/notifications";
 import "./plugins/axios";
 import "./plugins/eventBus";
 import "./plugins/bootstrap";
+import "./design/app.scss";
 
 Vue.config.productionTip = false;
 

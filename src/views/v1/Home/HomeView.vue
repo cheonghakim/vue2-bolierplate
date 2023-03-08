@@ -11,5 +11,5 @@ export default {
 </script>
 
 <template>
-  <div>메인화면</div>
+  <div class="text-danger">메인화면</div>
 </template>
