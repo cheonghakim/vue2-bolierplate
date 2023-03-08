@@ -10,4 +10,9 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((routeTo, routeFrom, next) => {
+  // url 변경시 작업
+  next();
+});
+
 export default router;
