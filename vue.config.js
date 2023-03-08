@@ -10,15 +10,15 @@ module.exports = defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      "^/ws": {
-        target: process.env.SOCKET_PROXY_TARGET,
-        changeOrigin: false,
-        secure: false,
-        ws: true,
-        onProxyReq: function (request) {
-          request.setHeader("origin", process.env.PROXY_TARGET);
-        },
-      },
+      // "^/ws": {
+      //   target: process.env.SOCKET_PROXY_TARGET,
+      //   changeOrigin: false,
+      //   secure: false,
+      //   ws: true,
+      //   onProxyReq: function (request) {
+      //     request.setHeader("origin", process.env.PROXY_TARGET);
+      //   },
+      // },
     },
     // disableHostCheck: true,
   },
