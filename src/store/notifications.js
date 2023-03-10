@@ -19,7 +19,6 @@ export const notifications = {
       });
     },
   },
-
   mutations: {
     clearToastCommit(state) {
       state.runningEvtMessages = [];
@@ -65,9 +64,9 @@ export const notifications = {
       if (index !== -1) state.storedEvtMessages?.splice(index, 1);
     },
   },
-
   actions: {
     pushMsg({ commit }, payload) {
+      console.log("!!push!!");
       commit("pushMsgCommit", payload);
     },
 
