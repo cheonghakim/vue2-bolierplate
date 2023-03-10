@@ -66,7 +66,6 @@ export const notifications = {
   },
   actions: {
     pushMsg({ commit }, payload) {
-      console.log("!!push!!");
       commit("pushMsgCommit", payload);
     },
 
