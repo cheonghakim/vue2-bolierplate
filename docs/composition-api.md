@@ -3,11 +3,7 @@
 ### 1. 객체 관리
 
 ref: 배열 및 원시타입 데이터, ref값에 읽기/쓰기할때는 .value로 접근한다  
-reactive: 객체타입을 깊은 감시한다. 가능하면 객체안의 데이터를 변경하는 방식으로 사용한다.  
-reactive안에 값을 이용하는 것이 올바른 사용방법이다.  
-어쩔 수 없이 reactive를 변경해야하고 재할당을 해야하는 경우 Object.assign(reactiveObj, newValue)를 사용한다.  
-렌더링을 다시해야 하는 경우 instance.proxy.$forceupdate()를 사용한다.  
-에러를 발생시킬 가능성이 높고 성능에도 좋지 않으므로 이런 방법은 사용하지 않는 것이 좋다.
+reactive: 객체타입을 깊은 감시한다. 객체안의 데이터를 변경하는 방식으로 사용한다.
 
 ### 2. Props
 
@@ -52,8 +48,8 @@ setup(){
 getInstance로 $store에 접근하여 스토어 데이터 및 디스패치를 가져온다
 
 ```javascript
-const instance = getCurrentInstance();
-const store = instance.proxy.$store;
+import { useStore } from "@/state/store";
+const store = useStore();
 const stateData = computed(() => store.state.moduleName.stateData); //state
 const getterData = computed(() => store.getters["moduleName/getterData"]); //getter
 const doDispatch = (data) => store.dispatch("moduleName/dispatchName", data); //dispatch
@@ -61,13 +57,13 @@ const doDispatch = (data) => store.dispatch("moduleName/dispatchName", data); //
 
 ### 5. method
 
-methods내부에서 this에 접근이 필요한 경우 getCurrentInstance.proxy 로 접근한다
+methods내부에서 this에 접근이 필요한 경우 getCurrentInstance로 접근한다
 
 ```javascript
 setup(){
-    const instance = getCurrentInstance()
+    const { proxy } = getCurrentInstance();  // 안티패턴 => setup 안에서 구현하거나 외부에서 가져오도록 변경
     const doSomthing = (message) => {
-        instance.proxy.$subject.$emit("info", message)
+        proxy.$subject.$emit("info", message)
     }
     return {
         doSomthing
@@ -83,4 +79,25 @@ setup(){
 setup(props, context){
     context.emit("emitToParent")
 }
+```
+
+### 7. ref
+
+Vue2에서 this.$refs에 접근하는 방법은 다음과 같다
+
+1. ref()를 이용해 변수에 할당한다
+2. 1에서 선언한 변수를 toRef(refVar)에 넣고 template에 ref의 변수와 동일한 이름으로 만든다
+3. 2의 .value로 ref에 접근한다
+
+```javascript
+export default {
+    setup(props, context){
+        const test = ref(null)
+        const testRef = toRef(test)
+        // testRef.value로 접근
+    }
+}
+<template>
+    <div ref="testRef"></div>
+</template>
 ```
